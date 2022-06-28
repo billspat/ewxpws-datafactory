@@ -1,0 +1,30 @@
+{
+	"name": "station_list",
+	"properties": {
+		"description": "stations ids and configuration",
+		"linkedServiceName": {
+			"referenceName": "AzurePostgreSqlEWXDev",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzurePostgreSqlTable",
+		"schema": [
+			{
+				"name": "station_id",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "http_body_data",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "public",
+			"table": "stations_json"
+		}
+	}
+}
