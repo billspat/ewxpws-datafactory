@@ -18,23 +18,6 @@
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
-		"schema": [
-			{
-				"name": "station_id",
-				"type": "String"
-			},
-			{
-				"name": " station_type",
-				"type": "String"
-			},
-			{
-				"name": " poll_date",
-				"type": "String"
-			},
-			{
-				"name": " data",
-				"type": "String"
-			}
-		]
+		"schema": []
 	}
 }
