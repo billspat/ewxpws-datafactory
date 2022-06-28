@@ -71,8 +71,8 @@
 								"referenceName": "AzureFunctionEwxDataCollect",
 								"type": "LinkedServiceReference",
 								"parameters": {
-									"station_config": "@item().http_body_data",
-									"station_id": "@item().station_id"
+									"station_config": "@{item().http_body_data}",
+									"station_id": "@{item().station_id}"
 								}
 							}
 						},
@@ -100,6 +100,7 @@
 				}
 			}
 		],
+		"concurrency": 5,
 		"variables": {
 			"mwapioutput": {
 				"type": "String"
