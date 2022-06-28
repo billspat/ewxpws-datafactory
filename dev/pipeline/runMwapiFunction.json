@@ -20,7 +20,7 @@
 						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "station_list",
+						"referenceName": "stations",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
