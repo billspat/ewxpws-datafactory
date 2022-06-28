@@ -1,0 +1,12 @@
+{
+	"name": "mwapi",
+	"properties": {
+		"annotations": [],
+		"type": "RestService",
+		"typeProperties": {
+			"url": "https://fn-ewxpws-dev.azurewebsites.net/",
+			"enableServerCertificateValidation": false,
+			"authenticationType": "Anonymous"
+		}
+	}
+}
