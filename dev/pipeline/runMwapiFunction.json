@@ -69,11 +69,7 @@
 							},
 							"linkedServiceName": {
 								"referenceName": "AzureFunctionEwxDataCollect",
-								"type": "LinkedServiceReference",
-								"parameters": {
-									"station_config": "@{item().http_body_data}",
-									"station_id": "@{item().station_id}"
-								}
+								"type": "LinkedServiceReference"
 							}
 						},
 						{
@@ -91,7 +87,7 @@
 							"typeProperties": {
 								"variableName": "mwapioutput",
 								"value": {
-									"value": "@{activity('GetData').output}",
+									"value": "@{activity('GetData').output.resp_transformed}",
 									"type": "Expression"
 								}
 							}
