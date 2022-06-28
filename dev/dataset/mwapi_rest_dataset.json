@@ -5,6 +5,14 @@
 			"referenceName": "mwapi",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"station_type": {
+				"type": "string"
+			},
+			"station_config": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "RestResource",
 		"schema": []
