@@ -215,11 +215,6 @@
 							"typeProperties": {
 								"source": {
 									"type": "RestSource",
-									"additionalColumns": [
-										{
-											"value": "$$COLUMN:"
-										}
-									],
 									"httpRequestTimeout": "00:01:40",
 									"requestInterval": "00.00:00:00.010",
 									"requestMethod": "POST",
@@ -238,21 +233,74 @@
 									"writeMethod": "CopyCommand"
 								},
 								"enableStaging": false,
+								"logSettings": {
+									"enableCopyActivityLog": true,
+									"copyActivityLogSettings": {
+										"logLevel": "Info",
+										"enableReliableLogging": false
+									},
+									"logLocationSettings": {
+										"linkedServiceName": {
+											"referenceName": "AzureBlobStorageEwxDev",
+											"type": "LinkedServiceReference"
+										},
+										"path": "ewx-data"
+									}
+								},
 								"translator": {
 									"type": "TabularTranslator",
 									"mappings": [
 										{
 											"source": {
-												"path": "$['resp_transformed']['Column_1']"
+												"path": "['station_id']"
+											},
+											"sink": {
+												"name": "station_id"
 											}
 										},
 										{
 											"source": {
-												"path": "$['Column_1']"
+												"path": "['request_datetime']"
+											},
+											"sink": {
+												"name": "request_datetime"
+											}
+										},
+										{
+											"source": {
+												"path": "['pcpn']"
+											},
+											"sink": {
+												"name": "pcpn"
+											}
+										},
+										{
+											"source": {
+												"path": "['data_datetime']"
+											},
+											"sink": {
+												"name": "data_datetime"
+											}
+										},
+										{
+											"source": {
+												"path": "['atemp']"
+											},
+											"sink": {
+												"name": "atemp"
+											}
+										},
+										{
+											"source": {
+												"path": "['relh']"
+											},
+											"sink": {
+												"name": "relh"
 											}
 										}
 									],
-									"collectionReference": "resp_transformed[*]"
+									"collectionReference": "$['resp_transformed']",
+									"mapComplexValuesToString": false
 								}
 							},
 							"inputs": [
@@ -267,7 +315,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "station_raw_data",
+									"referenceName": "observations_table",
 									"type": "DatasetReference"
 								}
 							]
