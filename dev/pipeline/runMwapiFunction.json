@@ -150,7 +150,13 @@
 							"inputs": [
 								{
 									"referenceName": "mwapi_rest_dataset",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"station_type": {
+											"value": "@item().station_type",
+											"type": "Expression"
+										}
+									}
 								}
 							],
 							"outputs": [
