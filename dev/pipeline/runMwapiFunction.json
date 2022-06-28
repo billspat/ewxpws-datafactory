@@ -63,7 +63,7 @@
 									"requestInterval": "00.00:00:00.010",
 									"requestMethod": "POST",
 									"requestBody": {
-										"value": "@concat('{\"station_type\":',item().station_type.value,'\"station_config\":',item().station_config.value,'}')",
+										"value": "{\"station_type\":@item().station_type.value, \"station_config\":@item().station_config.value}",
 										"type": "Expression"
 									},
 									"additionalHeaders": {
@@ -153,10 +153,10 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"station_type": {
-											"value": "@item().station_type",
+											"value": "@item().station_type.value",
 											"type": "Expression"
 										},
-										"station_config": "@item().station_config"
+										"station_config": "@item().station_config.value"
 									}
 								}
 							],
