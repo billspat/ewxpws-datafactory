@@ -4,10 +4,10 @@
 	"properties": {
 		"description": "pull data from weather stations using python multiweather api package",
 		"parameters": {
-			"station_type": {
+			"station_config": {
 				"type": "string"
 			},
-			"station_config": {
+			"station_id": {
 				"type": "string"
 			}
 		},
@@ -16,7 +16,7 @@
 		"typeProperties": {
 			"functionAppUrl": "https://fn-ewxpws-dev.azurewebsites.net",
 			"authentication": "Anonymous",
-			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDI3NDEzMkE5LUZFMjgtNDM0RS1CMDA4LUNDRjczNUIzRTY5OV9lMTc2ZmYwMC1mMzI0LTRlY2MtOTdjOS00YmVkMTFjMWFkMzkiDQp9"
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDI3NDEzMkE5LUZFMjgtNDM0RS1CMDA4LUNDRjczNUIzRTY5OV85MjA4NDU4MS1hMjE3LTQ1YTktOTVjYy01YWI0YWYwZjBjMTgiDQp9"
 		}
 	}
 }
