@@ -1,0 +1,12 @@
+{
+	"name": "mwapi_dataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "mwapi",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
