@@ -1,5 +1,5 @@
 {
-	"name": "pipeline1",
+	"name": "runMwapiFunction",
 	"properties": {
 		"activities": [
 			{
@@ -59,13 +59,20 @@
 									"Content-Type": "application/json"
 								},
 								"body": {
-									"value": "@item()",
+									"value": "@item().http_body_data",
 									"type": "Expression"
 								}
 							},
 							"linkedServiceName": {
 								"referenceName": "AzureFunctionEwxDataCollect",
-								"type": "LinkedServiceReference"
+								"type": "LinkedServiceReference",
+								"parameters": {
+									"station_type": {
+										"value": "@item().station_id",
+										"type": "Expression"
+									},
+									"station_config": "@item..http_body_data"
+								}
 							}
 						}
 					]
