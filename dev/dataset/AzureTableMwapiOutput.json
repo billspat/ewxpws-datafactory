@@ -1,0 +1,15 @@
+{
+	"name": "AzureTableMwapiOutput",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureTableStorageMwapiOutput",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureTable",
+		"schema": [],
+		"typeProperties": {
+			"tableName": "mwapioutput"
+		}
+	}
+}
