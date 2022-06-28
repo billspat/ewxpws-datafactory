@@ -1,0 +1,77 @@
+{
+	"name": "pipeline1",
+	"properties": {
+		"activities": [
+			{
+				"name": "get_station_list",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzurePostgreSqlSource",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "station_list",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "get_station_list",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"activities": [
+						{
+							"name": "GetData",
+							"type": "AzureFunctionActivity",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"functionName": "mwapi",
+								"method": "POST",
+								"headers": {
+									"Content-Type": "application/json"
+								},
+								"body": {
+									"value": "@item()",
+									"type": "Expression"
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "AzureFunctionEwxDataCollect",
+								"type": "LinkedServiceReference"
+							}
+						}
+					]
+				}
+			}
+		],
+		"annotations": []
+	}
+}
