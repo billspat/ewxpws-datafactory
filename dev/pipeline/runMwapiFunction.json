@@ -53,9 +53,8 @@
 								"retry": 0,
 								"retryIntervalInSeconds": 30,
 								"secureOutput": false,
-								"secureInput": false
+								"secureInput": true
 							},
-							"userProperties": [],
 							"typeProperties": {
 								"functionName": "mwapi",
 								"method": "POST",
@@ -97,7 +96,7 @@
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "GetData",
+									"activity": "saveMwapiToVariable",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -112,8 +111,125 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
+								"source": {
+									"type": "DelimitedTextSource",
+									"additionalColumns": [
+										{
+											"name": "station_id_x",
+											"value": {
+												"value": "@item().output.value",
+												"type": "Expression"
+											}
+										},
+										{
+											"name": "raw_data_x",
+											"value": {
+												"value": "@activity('GetData').output.resp_raw",
+												"type": "Expression"
+											}
+										}
+									],
+									"storeSettings": {
+										"type": "AzureBlobStorageReadSettings",
+										"recursive": true,
+										"enablePartitionDiscovery": false
+									},
+									"formatSettings": {
+										"type": "DelimitedTextReadSettings"
+									}
+								},
+								"sink": {
+									"type": "AzurePostgreSQLSink",
+									"writeBatchSize": 1000000,
+									"writeBatchTimeout": "00:30:00",
+									"writeMethod": "CopyCommand"
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "station_id_x"
+											},
+											"sink": {
+												"name": "station_id",
+												"scale": 0,
+												"precision": 0
+											}
+										}
+									],
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "example_rawdata_csv",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "station_raw_data",
+									"type": "DatasetReference"
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"name": "mwapi_each_station",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "get_station_list",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('get_station_list').output.value",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "mwapi2db",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "RestSource",
+									"httpRequestTimeout": "00:01:40",
+									"requestInterval": "00.00:00:00.010",
+									"requestMethod": "GET",
+									"paginationRules": {
+										"supportRFC5988": "true"
+									}
+								},
 								"enableStaging": false
-							}
+							},
+							"inputs": [
+								{
+									"referenceName": "mwapi_rest_dataset",
+									"type": "DatasetReference"
+								}
+							]
 						}
 					]
 				}
