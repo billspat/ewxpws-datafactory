@@ -1,5 +1,5 @@
 {
-	"name": "mwapi_dataset",
+	"name": "mwapi_rest_dataset",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "mwapi",
