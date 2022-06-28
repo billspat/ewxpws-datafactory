@@ -215,18 +215,59 @@
 							"typeProperties": {
 								"source": {
 									"type": "RestSource",
+									"additionalColumns": [
+										{
+											"value": "$$COLUMN:"
+										}
+									],
 									"httpRequestTimeout": "00:01:40",
 									"requestInterval": "00.00:00:00.010",
-									"requestMethod": "GET",
-									"paginationRules": {
-										"supportRFC5988": "true"
+									"requestMethod": "POST",
+									"requestBody": {
+										"value": "@concat('{\"station_type\":',item().station_type.value,'\"station_config\":',item().station_config.value,'}')",
+										"type": "Expression"
+									},
+									"additionalHeaders": {
+										"Content-Type": "application/json"
 									}
 								},
-								"enableStaging": false
+								"sink": {
+									"type": "AzurePostgreSQLSink",
+									"writeBatchSize": 1000000,
+									"writeBatchTimeout": "00:30:00",
+									"writeMethod": "CopyCommand"
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"path": "$['resp_transformed']['Column_1']"
+											}
+										},
+										{
+											"source": {
+												"path": "$['Column_1']"
+											}
+										}
+									],
+									"collectionReference": "resp_transformed[*]"
+								}
 							},
 							"inputs": [
 								{
 									"referenceName": "mwapi_rest_dataset",
+									"type": "DatasetReference",
+									"parameters": {
+										"station_type": "@item().station_type",
+										"station_config": "@item().station_config"
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "station_raw_data",
 									"type": "DatasetReference"
 								}
 							]
