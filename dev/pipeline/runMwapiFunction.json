@@ -39,6 +39,10 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
+					"items": {
+						"value": "@activity('get_station_list').output",
+						"type": "Expression"
+					},
 					"activities": [
 						{
 							"name": "GetData",
