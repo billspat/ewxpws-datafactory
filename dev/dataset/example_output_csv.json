@@ -5,12 +5,33 @@
 			"referenceName": "AzureBlobStorageEwxDev",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"FileName": {
+				"type": "string",
+				"defaultValue": "ex_function_output"
+			},
+			"Extension": {
+				"type": "string",
+				"defaultValue": "csv"
+			},
+			"Timestamp": {
+				"type": "string",
+				"defaultValue": "2022-06-01-00-00"
+			},
+			"StationID": {
+				"type": "string",
+				"defaultValue": "STATION_ID"
+			}
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "ex_function_output.csv",
+				"fileName": {
+					"value": "@concat(dataset().FileName,'_',dataset().StationID,'_',dataset().Timestamp,dataset().Extension)",
+					"type": "Expression"
+				},
 				"container": "ewx-data"
 			},
 			"columnDelimiter": ",",
