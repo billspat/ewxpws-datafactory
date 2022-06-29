@@ -3,7 +3,10 @@
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "mwapi",
-			"type": "LinkedServiceReference"
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"station_type": "EXAMPLE"
+			}
 		},
 		"annotations": [],
 		"type": "RestResource",
