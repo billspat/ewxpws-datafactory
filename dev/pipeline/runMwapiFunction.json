@@ -58,7 +58,7 @@
 							}
 						},
 						{
-							"name": "Azure Function1",
+							"name": "mwapi_function",
 							"type": "AzureFunctionActivity",
 							"dependsOn": [
 								{
@@ -82,7 +82,37 @@
 							},
 							"linkedServiceName": {
 								"referenceName": "AzureFunctionEwxDataCollect",
-								"type": "LinkedServiceReference"
+								"type": "LinkedServiceReference",
+								"parameters": {
+									"station_type": {
+										"value": "@item().station_type",
+										"type": "Expression"
+									},
+									"station_config": {
+										"value": "@item().station_config",
+										"type": "Expression"
+									}
+								}
+							}
+						},
+						{
+							"name": "fnoutput",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "mwapi_function",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "readings",
+								"value": {
+									"value": "@activity('mwapi_function').output",
+									"type": "Expression"
+								}
 							}
 						}
 					]
@@ -101,6 +131,9 @@
 				"type": "String"
 			},
 			"mwapi_rest_body": {
+				"type": "String"
+			},
+			"readings": {
 				"type": "String"
 			}
 		},
