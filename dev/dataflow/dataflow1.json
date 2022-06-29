@@ -1,0 +1,29 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "mwapi_rest_dataset",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     limit: 100,",
+				"     httpMethod: 'POST',",
+				"     body: '{\"station_type\":\"SPECTRUM\",\"station_config\":{\"sn\":\"50400123\",\"apikey\":\"11a5c3a939856b08677b7a072f8e6865\"}}',",
+				"     timeout: 30,",
+				"     headers: ['Content-Type' -> 'application/json'],",
+				"     responseFormat: ['type' -> 'json', 'documentForm' -> 'arrayOfDocuments']) ~> source1"
+			]
+		}
+	}
+}
