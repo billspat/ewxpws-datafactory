@@ -47,20 +47,7 @@
 						{
 							"name": "mwapi2db",
 							"type": "Copy",
-							"dependsOn": [
-								{
-									"activity": "set_station_config",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								},
-								{
-									"activity": "set_station_type",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"policy": {
 								"timeout": "7.00:00:00",
 								"retry": 0,
@@ -76,7 +63,7 @@
 									"requestInterval": "00.00:00:00.010",
 									"requestMethod": "POST",
 									"requestBody": {
-										"value": "{\"station_type\": @variables('stations_station_type'), \"station_config\": @variables('stations_station_config')}",
+										"value": "@json(concat('{\"station_type\":',variables('stations_station_type'),\n'\"station_config\":{\"sn\":\"50400123\",\"apikey\":\"11a5c3a939856b08677b7a072f8e6865\"}}'))",
 										"type": "Expression"
 									},
 									"additionalHeaders": {
@@ -165,14 +152,7 @@
 									"referenceName": "mwapi_rest_dataset",
 									"type": "DatasetReference",
 									"parameters": {
-										"station_type": {
-											"value": "@variables('stations_station_type')",
-											"type": "Expression"
-										},
-										"station_config": {
-											"value": "@variables('stations_station_config')",
-											"type": "Expression"
-										}
+										"station_type": "ONSET"
 									}
 								}
 							],
@@ -182,32 +162,6 @@
 									"type": "DatasetReference"
 								}
 							]
-						},
-						{
-							"name": "set_station_type",
-							"type": "SetVariable",
-							"dependsOn": [],
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "stations_station_type",
-								"value": {
-									"value": "@item().station_type",
-									"type": "Expression"
-								}
-							}
-						},
-						{
-							"name": "set_station_config",
-							"type": "SetVariable",
-							"dependsOn": [],
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "stations_station_config",
-								"value": {
-									"value": "@item().station_config",
-									"type": "Expression"
-								}
-							}
 						}
 					]
 				}
