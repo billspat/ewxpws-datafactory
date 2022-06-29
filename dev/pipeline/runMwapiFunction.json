@@ -5,7 +5,14 @@
 			{
 				"name": "get_station_list",
 				"type": "Lookup",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "set_timestamp_var",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "7.00:00:00",
 					"retry": 0,
@@ -64,15 +71,6 @@
 							"typeProperties": {
 								"source": {
 									"type": "RestSource",
-									"additionalColumns": [
-										{
-											"name": "StationIDVar",
-											"value": {
-												"value": "@item().station_id",
-												"type": "Expression"
-											}
-										}
-									],
 									"httpRequestTimeout": "00:01:40",
 									"requestInterval": "00.00:00:00.010",
 									"requestMethod": "POST",
@@ -365,6 +363,19 @@
 						}
 					]
 				}
+			},
+			{
+				"name": "set_timestamp_var",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "timestamp_var",
+					"value": {
+						"value": "@utcNow()",
+						"type": "Expression"
+					}
+				}
 			}
 		],
 		"concurrency": 5,
@@ -387,11 +398,12 @@
 			"some_data": {
 				"type": "Array"
 			},
-			"timestamp_var": {
-				"type": "String"
-			},
 			"reading_filename": {
 				"type": "String"
+			},
+			"timestamp_var": {
+				"type": "String",
+				"defaultValue": "@utcNow()"
 			}
 		},
 		"annotations": []
