@@ -1,14 +1,6 @@
 {
 	"name": "mwapi",
 	"properties": {
-		"parameters": {
-			"station_type": {
-				"type": "string"
-			},
-			"station_config": {
-				"type": "string"
-			}
-		},
 		"annotations": [],
 		"type": "RestService",
 		"typeProperties": {
