@@ -103,7 +103,7 @@
 									"mappings": [
 										{
 											"source": {
-												"path": "['station_id']"
+												"path": "$['resp_transformed'][0]['station_id']"
 											},
 											"sink": {
 												"name": "station_id"
@@ -111,7 +111,7 @@
 										},
 										{
 											"source": {
-												"path": "['request_datetime']"
+												"path": "$['resp_transformed'][0]['request_datetime']"
 											},
 											"sink": {
 												"name": "request_datetime"
@@ -119,7 +119,7 @@
 										},
 										{
 											"source": {
-												"path": "['pcpn']"
+												"path": "$['resp_transformed'][0]['pcpn']"
 											},
 											"sink": {
 												"name": "pcpn"
@@ -127,7 +127,7 @@
 										},
 										{
 											"source": {
-												"path": "['data_datetime']"
+												"path": "$['resp_transformed'][0]['data_datetime']"
 											},
 											"sink": {
 												"name": "data_datetime"
@@ -135,7 +135,7 @@
 										},
 										{
 											"source": {
-												"path": "['atemp']"
+												"path": "$['resp_transformed'][0]['atemp']"
 											},
 											"sink": {
 												"name": "atemp"
@@ -143,14 +143,14 @@
 										},
 										{
 											"source": {
-												"path": "['relh']"
+												"path": "$['resp_transformed'][0]['relh']"
 											},
 											"sink": {
 												"name": "relh"
 											}
 										}
 									],
-									"collectionReference": "$['resp_transformed']",
+									"collectionReference": "$['readings']",
 									"mapComplexValuesToString": false
 								}
 							},
@@ -175,7 +175,7 @@
 							"typeProperties": {
 								"variableName": "mwapi_rest_body",
 								"value": {
-									"value": "@concat('{\"station_type\":\"',\n  item().station_type.value, \n  '\",\"station_config\":',\n  item().station_config.value,\n  '\"\"}'\n)",
+									"value": "@concat('{\"station_type\":\"',\n  item().station_type, \n  '\",\"station_config\":',\n  item().station_config,\n  '}'\n)",
 									"type": "Expression"
 								}
 							}
