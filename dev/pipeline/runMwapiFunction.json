@@ -237,7 +237,22 @@
 							"outputs": [
 								{
 									"referenceName": "example_output_csv",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"FileName": {
+											"value": "@item().station_type",
+											"type": "Expression"
+										},
+										"Extension": "csv",
+										"Timestamp": {
+											"value": "@utcnow()",
+											"type": "Expression"
+										},
+										"StationID": {
+											"value": "@item().station_id",
+											"type": "Expression"
+										}
+									}
 								}
 							]
 						}
@@ -261,6 +276,9 @@
 			},
 			"readings": {
 				"type": "String"
+			},
+			"some_data": {
+				"type": "Array"
 			}
 		},
 		"annotations": []
