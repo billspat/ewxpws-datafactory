@@ -174,7 +174,10 @@
 							"userProperties": [],
 							"typeProperties": {
 								"variableName": "mwapi_rest_body",
-								"value": "{\"station_type\":,\"@{item().station_type.value}\",\n\"station_config\":\"@{item().station_config.value}\"}"
+								"value": {
+									"value": "concat('{\"station_type\":','}')",
+									"type": "Expression"
+								}
 							}
 						}
 					]
