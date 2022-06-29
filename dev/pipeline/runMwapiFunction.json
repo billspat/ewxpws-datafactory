@@ -81,7 +81,7 @@
 									"type": "AzurePostgreSQLSink",
 									"writeBatchSize": 1000000,
 									"writeBatchTimeout": "00:30:00",
-									"writeMethod": "CopyCommand"
+									"writeMethod": "BulkInsert"
 								},
 								"enableStaging": false,
 								"logSettings": {
@@ -151,7 +151,7 @@
 										}
 									],
 									"collectionReference": "$['readings']",
-									"mapComplexValuesToString": false
+									"mapComplexValuesToString": true
 								}
 							},
 							"inputs": [
