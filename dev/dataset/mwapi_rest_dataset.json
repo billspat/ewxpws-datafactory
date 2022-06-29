@@ -3,33 +3,7 @@
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "mwapi",
-			"type": "LinkedServiceReference",
-			"parameters": {
-				"station_type": {
-					"value": "@dataset().station_type",
-					"type": "Expression"
-				},
-				"station_config": {
-					"value": "@dataset().station_config",
-					"type": "Expression"
-				}
-			}
-		},
-		"parameters": {
-			"station_type": {
-				"type": "string",
-				"defaultValue": "ONSET"
-			},
-			"station_config": {
-				"type": "string",
-				"defaultValue": {
-					"station_type": "SPECTRUM",
-					"station_config": {
-						"sn": "50400123",
-						"apikey": "11a5c3a939856b08677b7a072f8e6865"
-					}
-				}
-			}
+			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
 		"type": "RestResource",
