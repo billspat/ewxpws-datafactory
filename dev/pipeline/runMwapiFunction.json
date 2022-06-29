@@ -45,29 +45,9 @@
 					},
 					"activities": [
 						{
-							"name": "set_json_body",
-							"type": "SetVariable",
-							"dependsOn": [],
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "mwapi_rest_body",
-								"value": {
-									"value": "@concat('{\"station_type\":\"',\n  item().station_type, \n  '\",\"station_config\":',\n  item().station_config,\n  '}'\n)",
-									"type": "Expression"
-								}
-							}
-						},
-						{
 							"name": "get_reading_to_blob",
 							"type": "Copy",
-							"dependsOn": [
-								{
-									"activity": "set_timestamp_var",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"policy": {
 								"timeout": "7.00:00:00",
 								"retry": 0,
@@ -75,7 +55,12 @@
 								"secureOutput": false,
 								"secureInput": false
 							},
-							"userProperties": [],
+							"userProperties": [
+								{
+									"name": "Destination",
+									"value": "ewx-data/@{item().station_id}/@{concat('reading','_',item().station_id,'_',variables('timestamp_var'),'.csv')}"
+								}
+							],
 							"typeProperties": {
 								"source": {
 									"type": "RestSource",
@@ -92,7 +77,7 @@
 									"requestInterval": "00.00:00:00.010",
 									"requestMethod": "POST",
 									"requestBody": {
-										"value": "@variables('mwapi_rest_body')",
+										"value": "@concat('{\"station_type\":\"',\n  item().station_type, \n  '\",\"station_config\":',\n  item().station_config,\n  '}'\n)",
 										"type": "Expression"
 									},
 									"paginationRules": {
@@ -377,26 +362,6 @@
 									"type": "DatasetReference"
 								}
 							]
-						},
-						{
-							"name": "set_timestamp_var",
-							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "set_json_body",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "timestamp_var",
-								"value": {
-									"value": "@utcNow()",
-									"type": "Expression"
-								}
-							}
 						}
 					]
 				}
