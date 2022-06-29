@@ -58,68 +58,6 @@
 							}
 						},
 						{
-							"name": "mwapi_function",
-							"type": "AzureFunctionActivity",
-							"dependsOn": [
-								{
-									"activity": "set_json_body",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "7.00:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"functionName": "mwapi",
-								"method": "POST",
-								"body": {
-									"value": "@variables('mwapi_rest_body')",
-									"type": "Expression"
-								}
-							},
-							"linkedServiceName": {
-								"referenceName": "AzureFunctionEwxDataCollect",
-								"type": "LinkedServiceReference",
-								"parameters": {
-									"station_type": {
-										"value": "@item().station_type",
-										"type": "Expression"
-									},
-									"station_config": {
-										"value": "@item().station_config",
-										"type": "Expression"
-									}
-								}
-							}
-						},
-						{
-							"name": "fnoutput",
-							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "mwapi_function",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "readings",
-								"value": {
-									"value": "@string(activity('mwapi_function').output.Response)",
-									"type": "Expression"
-								}
-							}
-						},
-						{
 							"name": "get_reading_to_blob",
 							"type": "Copy",
 							"dependsOn": [
@@ -131,6 +69,12 @@
 								},
 								{
 									"activity": "set_timestamp_var",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								},
+								{
+									"activity": "set_filename_var",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -449,6 +393,27 @@
 									"type": "Expression"
 								}
 							}
+						},
+						{
+							"name": "set_filename_var",
+							"description": "concatenates variables to name the file to be saved",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "set_timestamp_var",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "reading_filename",
+								"value": {
+									"value": "@concat('reading_', item().station_id,'_',variables('timestamp_var'))",
+									"type": "Expression"
+								}
+							}
 						}
 					]
 				}
@@ -475,6 +440,9 @@
 				"type": "Array"
 			},
 			"timestamp_var": {
+				"type": "String"
+			},
+			"reading_filename": {
 				"type": "String"
 			}
 		},
