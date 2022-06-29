@@ -45,8 +45,21 @@
 					},
 					"activities": [
 						{
-							"name": "mwapi2db",
-							"type": "Copy",
+							"name": "set_json_body",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "mwapi_rest_body",
+								"value": {
+									"value": "@concat('{\"station_type\":\"',\n  item().station_type, \n  '\",\"station_config\":',\n  item().station_config,\n  '}'\n)",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Azure Function1",
+							"type": "AzureFunctionActivity",
 							"dependsOn": [
 								{
 									"activity": "set_json_body",
@@ -64,120 +77,12 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"source": {
-									"type": "RestSource",
-									"httpRequestTimeout": "00:01:40",
-									"requestInterval": "00.00:00:00.010",
-									"requestMethod": "POST",
-									"requestBody": {
-										"value": "@variables('mwapi_rest_body')",
-										"type": "Expression"
-									},
-									"additionalHeaders": {
-										"Content-Type": "applicatication/json"
-									}
-								},
-								"sink": {
-									"type": "AzurePostgreSQLSink",
-									"writeBatchSize": 1000000,
-									"writeBatchTimeout": "00:30:00",
-									"writeMethod": "BulkInsert"
-								},
-								"enableStaging": false,
-								"logSettings": {
-									"enableCopyActivityLog": true,
-									"copyActivityLogSettings": {
-										"logLevel": "Info",
-										"enableReliableLogging": false
-									},
-									"logLocationSettings": {
-										"linkedServiceName": {
-											"referenceName": "AzureBlobStorageEwxDev",
-											"type": "LinkedServiceReference"
-										},
-										"path": "ewx-data"
-									}
-								},
-								"translator": {
-									"type": "TabularTranslator",
-									"mappings": [
-										{
-											"source": {
-												"path": "$['resp_transformed'][0]['station_id']"
-											},
-											"sink": {
-												"name": "station_id"
-											}
-										},
-										{
-											"source": {
-												"path": "$['resp_transformed'][0]['request_datetime']"
-											},
-											"sink": {
-												"name": "request_datetime"
-											}
-										},
-										{
-											"source": {
-												"path": "$['resp_transformed'][0]['pcpn']"
-											},
-											"sink": {
-												"name": "pcpn"
-											}
-										},
-										{
-											"source": {
-												"path": "$['resp_transformed'][0]['data_datetime']"
-											},
-											"sink": {
-												"name": "data_datetime"
-											}
-										},
-										{
-											"source": {
-												"path": "$['resp_transformed'][0]['atemp']"
-											},
-											"sink": {
-												"name": "atemp"
-											}
-										},
-										{
-											"source": {
-												"path": "$['resp_transformed'][0]['relh']"
-											},
-											"sink": {
-												"name": "relh"
-											}
-										}
-									],
-									"collectionReference": "$['readings']",
-									"mapComplexValuesToString": true
-								}
+								"functionName": "mwapi",
+								"method": "GET"
 							},
-							"inputs": [
-								{
-									"referenceName": "mwapi_rest_dataset",
-									"type": "DatasetReference"
-								}
-							],
-							"outputs": [
-								{
-									"referenceName": "observations_table",
-									"type": "DatasetReference"
-								}
-							]
-						},
-						{
-							"name": "set_json_body",
-							"type": "SetVariable",
-							"dependsOn": [],
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "mwapi_rest_body",
-								"value": {
-									"value": "@concat('{\"station_type\":\"',\n  item().station_type, \n  '\",\"station_config\":',\n  item().station_config,\n  '}'\n)",
-									"type": "Expression"
-								}
+							"linkedServiceName": {
+								"referenceName": "AzureFunctionEwxDataCollect",
+								"type": "LinkedServiceReference"
 							}
 						}
 					]

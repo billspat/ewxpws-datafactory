@@ -5,7 +5,23 @@
 			"referenceName": "mwapi",
 			"type": "LinkedServiceReference",
 			"parameters": {
-				"station_type": "EXAMPLE"
+				"station_type": {
+					"value": "@dataset().station_type",
+					"type": "Expression"
+				},
+				"station_config": {
+					"value": "@dataset().station_config",
+					"type": "Expression"
+				}
+			}
+		},
+		"parameters": {
+			"station_type": {
+				"type": "string",
+				"defaultValue": "EXAMPLE"
+			},
+			"station_config": {
+				"type": "string"
 			}
 		},
 		"annotations": [],
