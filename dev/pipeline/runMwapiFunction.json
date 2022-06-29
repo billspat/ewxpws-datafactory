@@ -47,7 +47,14 @@
 						{
 							"name": "mwapi2db",
 							"type": "Copy",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "set_json_body",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"timeout": "7.00:00:00",
 								"retry": 0,
@@ -62,7 +69,10 @@
 									"httpRequestTimeout": "00:01:40",
 									"requestInterval": "00.00:00:00.010",
 									"requestMethod": "POST",
-									"requestBody": "{\"station_type\":,\"@{item().station_type.value}\",\n\"station_config\":\"@{item().station_config.value}\"}",
+									"requestBody": {
+										"value": "@variables('mwapi_rest_body')",
+										"type": "Expression"
+									},
 									"additionalHeaders": {
 										"Content-Type": "applicatication/json"
 									}
@@ -156,6 +166,16 @@
 									"type": "DatasetReference"
 								}
 							]
+						},
+						{
+							"name": "set_json_body",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "mwapi_rest_body",
+								"value": "{\"station_type\":,\"@{item().station_type.value}\",\n\"station_config\":\"@{item().station_config.value}\"}"
+							}
 						}
 					]
 				}
@@ -170,6 +190,9 @@
 				"type": "String"
 			},
 			"stations_station_config": {
+				"type": "String"
+			},
+			"mwapi_rest_body": {
 				"type": "String"
 			}
 		},
