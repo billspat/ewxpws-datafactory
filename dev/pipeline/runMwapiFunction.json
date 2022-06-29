@@ -259,7 +259,7 @@
 							]
 						},
 						{
-							"name": "get_reading_to_db",
+							"name": "import_reading_csv_to_db",
 							"type": "Copy",
 							"dependsOn": [
 								{
