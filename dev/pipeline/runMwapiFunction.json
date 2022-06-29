@@ -175,7 +175,7 @@
 							"typeProperties": {
 								"variableName": "mwapi_rest_body",
 								"value": {
-									"value": "concat('{\"station_type\":','}')",
+									"value": "@concat('{\"station_type\":\"',\n  item().station_type.value, \n  '\",\"station_config\":',\n  item().station_config.value,\n  '\"\"}'\n)",
 									"type": "Expression"
 								}
 							}
