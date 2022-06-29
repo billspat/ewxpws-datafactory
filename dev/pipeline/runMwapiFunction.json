@@ -120,11 +120,17 @@
 							}
 						},
 						{
-							"name": "Copy data1",
+							"name": "get_reading_to_blob",
 							"type": "Copy",
 							"dependsOn": [
 								{
 									"activity": "set_json_body",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								},
+								{
+									"activity": "set_timestamp_var",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -236,16 +242,12 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "example_output_csv",
+									"referenceName": "reading_output_csv",
 									"type": "DatasetReference",
 									"parameters": {
-										"FileName": {
-											"value": "@item().station_type",
-											"type": "Expression"
-										},
-										"Extension": "csv",
-										"Timestamp": {
-											"value": "@utcnow()",
+										"FileName": "reading",
+										"TimeStamp": {
+											"value": "@variables('timestamp_var')",
 											"type": "Expression"
 										},
 										"StationID": {
@@ -255,6 +257,160 @@
 									}
 								}
 							]
+						},
+						{
+							"name": "get_reading_to_db",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "get_reading_to_blob",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "DelimitedTextSource",
+									"storeSettings": {
+										"type": "AzureBlobStorageReadSettings",
+										"recursive": true,
+										"enablePartitionDiscovery": false
+									},
+									"formatSettings": {
+										"type": "DelimitedTextReadSettings"
+									}
+								},
+								"sink": {
+									"type": "AzurePostgreSQLSink",
+									"writeBatchSize": 1000000,
+									"writeBatchTimeout": "00:30:00",
+									"writeMethod": "CopyCommand"
+								},
+								"enableStaging": false,
+								"logSettings": {
+									"enableCopyActivityLog": true,
+									"copyActivityLogSettings": {
+										"logLevel": "Info",
+										"enableReliableLogging": false
+									},
+									"logLocationSettings": {
+										"linkedServiceName": {
+											"referenceName": "AzureBlobStorageEwxDev",
+											"type": "LinkedServiceReference"
+										},
+										"path": "ewx-data"
+									}
+								},
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "station_id"
+											},
+											"sink": {
+												"name": "station_id",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "request_datetime"
+											},
+											"sink": {
+												"name": "request_datetime",
+												"type": "DateTime"
+											}
+										},
+										{
+											"source": {
+												"name": "request_datetime"
+											},
+											"sink": {
+												"name": "pcpn",
+												"type": "Double"
+											}
+										},
+										{
+											"source": {
+												"path": "$['data_datetime']"
+											},
+											"sink": {
+												"name": "data_datetime",
+												"type": "DateTime"
+											}
+										},
+										{
+											"source": {
+												"path": "$['atemp']"
+											},
+											"sink": {
+												"name": "atemp",
+												"type": "Double"
+											}
+										},
+										{
+											"source": {
+												"path": "$['relh']"
+											},
+											"sink": {
+												"name": "relh",
+												"type": "Double"
+											}
+										}
+									],
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "reading_output_csv",
+									"type": "DatasetReference",
+									"parameters": {
+										"FileName": "reading",
+										"TimeStamp": {
+											"value": "@variables('timestamp_var')",
+											"type": "Expression"
+										},
+										"StationID": {
+											"value": "@item().station_id",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "observations_table",
+									"type": "DatasetReference"
+								}
+							]
+						},
+						{
+							"name": "set_timestamp_var",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "timestamp_var",
+								"value": {
+									"value": "@utcNow()",
+									"type": "Expression"
+								}
+							}
 						}
 					]
 				}
@@ -279,6 +435,9 @@
 			},
 			"some_data": {
 				"type": "Array"
+			},
+			"timestamp_var": {
+				"type": "String"
 			}
 		},
 		"annotations": []

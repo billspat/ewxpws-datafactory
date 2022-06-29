@@ -1,5 +1,5 @@
 {
-	"name": "example_output_csv_copy1",
+	"name": "reading_output_csv",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureBlobStorageEwxDev",
