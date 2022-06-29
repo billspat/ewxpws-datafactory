@@ -47,7 +47,20 @@
 						{
 							"name": "mwapi2db",
 							"type": "Copy",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "set_station_config",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								},
+								{
+									"activity": "set_station_type",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"timeout": "7.00:00:00",
 								"retry": 0,
@@ -63,11 +76,11 @@
 									"requestInterval": "00.00:00:00.010",
 									"requestMethod": "POST",
 									"requestBody": {
-										"value": "{\"station_type\":@item().station_type.value, \"station_config\":@item().station_config.value}",
+										"value": "{\"station_type\": @variables('stations_station_type'), \"station_config\": @variables('stations_station_config')}",
 										"type": "Expression"
 									},
 									"additionalHeaders": {
-										"Content-Type": "application/json"
+										"Content-Type": "applicatication/json"
 									}
 								},
 								"sink": {
@@ -153,10 +166,13 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"station_type": {
-											"value": "@item().station_type.value",
+											"value": "@variables('stations_station_type')",
 											"type": "Expression"
 										},
-										"station_config": "@item().station_config.value"
+										"station_config": {
+											"value": "@variables('stations_station_config')",
+											"type": "Expression"
+										}
 									}
 								}
 							],
@@ -166,6 +182,32 @@
 									"type": "DatasetReference"
 								}
 							]
+						},
+						{
+							"name": "set_station_type",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "stations_station_type",
+								"value": {
+									"value": "@item().station_type",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "set_station_config",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "stations_station_config",
+								"value": {
+									"value": "@item().station_config",
+									"type": "Expression"
+								}
+							}
 						}
 					]
 				}
@@ -174,6 +216,12 @@
 		"concurrency": 5,
 		"variables": {
 			"mwapioutput": {
+				"type": "String"
+			},
+			"stations_station_type": {
+				"type": "String"
+			},
+			"stations_station_config": {
 				"type": "String"
 			}
 		},
