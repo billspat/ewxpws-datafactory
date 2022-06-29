@@ -280,6 +280,15 @@
 							"typeProperties": {
 								"source": {
 									"type": "DelimitedTextSource",
+									"additionalColumns": [
+										{
+											"name": "station_type",
+											"value": {
+												"value": "@item().station_type",
+												"type": "Expression"
+											}
+										}
+									],
 									"storeSettings": {
 										"type": "AzureBlobStorageReadSettings",
 										"recursive": true,
@@ -315,56 +324,85 @@
 									"mappings": [
 										{
 											"source": {
-												"name": "station_id"
+												"name": "station_id",
+												"type": "String",
+												"physicalType": "String"
 											},
 											"sink": {
 												"name": "station_id",
+												"type": "String",
+												"physicalType": "text"
+											}
+										},
+										{
+											"source": {
+												"name": "station_type",
 												"type": "String"
-											}
-										},
-										{
-											"source": {
-												"name": "request_datetime"
 											},
 											"sink": {
-												"name": "request_datetime",
-												"type": "DateTime"
+												"name": "station_type",
+												"type": "String",
+												"physicalType": "text"
 											}
 										},
 										{
 											"source": {
-												"name": "request_datetime"
-											},
-											"sink": {
-												"name": "pcpn",
-												"type": "Double"
-											}
-										},
-										{
-											"source": {
-												"path": "$['data_datetime']"
-											},
-											"sink": {
-												"name": "data_datetime",
-												"type": "DateTime"
-											}
-										},
-										{
-											"source": {
-												"path": "$['atemp']"
+												"name": "atemp",
+												"type": "String",
+												"physicalType": "String"
 											},
 											"sink": {
 												"name": "atemp",
-												"type": "Double"
+												"type": "Double",
+												"physicalType": "double precision"
 											}
 										},
 										{
 											"source": {
-												"path": "$['relh']"
+												"name": "pcpn",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "pcpn",
+												"type": "Double",
+												"physicalType": "double precision"
+											}
+										},
+										{
+											"source": {
+												"name": "relh",
+												"type": "String",
+												"physicalType": "String"
 											},
 											"sink": {
 												"name": "relh",
-												"type": "Double"
+												"type": "Double",
+												"physicalType": "double precision"
+											}
+										},
+										{
+											"source": {
+												"name": "request_datetime",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "request_datetime",
+												"type": "DateTime",
+												"physicalType": "date"
+											}
+										},
+										{
+											"source": {
+												"name": "data_datetime",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "data_datetime",
+												"type": "DateTime",
+												"physicalType": "date"
 											}
 										}
 									],
