@@ -1,0 +1,48 @@
+{
+	"name": "example_output_csv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorageEwxDev",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "ex_function_output.csv",
+				"container": "ewx-data"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "station_id",
+				"type": "String"
+			},
+			{
+				"name": "request_datetime",
+				"type": "String"
+			},
+			{
+				"name": "pcpn",
+				"type": "String"
+			},
+			{
+				"name": "data_datetime",
+				"type": "String"
+			},
+			{
+				"name": "atemp",
+				"type": "String"
+			},
+			{
+				"name": "relh",
+				"type": "String"
+			}
+		]
+	}
+}
