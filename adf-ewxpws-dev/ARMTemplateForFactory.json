@@ -1345,7 +1345,7 @@
 			"properties": {
 				"description": "test 15 minute interval, 10 minutes past the 15 minute mark to allow Zentra to catchup.     ",
 				"annotations": [
-					"test_session"
+					"test_session_oct2022"
 				],
 				"runtimeState": "Started",
 				"pipelines": [
@@ -1364,8 +1364,8 @@
 					"recurrence": {
 						"frequency": "Minute",
 						"interval": 15,
-						"startTime": "2022-07-19T00:10:00Z",
-						"endTime": "2022-07-21T00:10:00Z",
+						"startTime": "2022-10-03T12:10:00Z",
+						"endTime": "2022-12-31T23:55:00Z",
 						"timeZone": "UTC"
 					}
 				}
