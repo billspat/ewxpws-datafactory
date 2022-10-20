@@ -26,6 +26,9 @@
 		"mwapi_scheduled_trigger_15_minutes_properties_runMwapiFunction_parameters_dc_test_session_id": {
 			"value": "2022July02-15minute-test"
 		},
+		"get_weather_readings_15_minutes_properties_get_weather_readings_parameters_dc_test_session_id": {
+			"value": "poc_post_function_fix"
+		},
 		"containerUri": {
 			"value": ""
 		},

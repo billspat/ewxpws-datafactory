@@ -34,6 +34,10 @@
 		"mwapi_scheduled_trigger_15_minutes_properties_runMwapiFunction_parameters_dc_test_session_id": {
 			"type": "string",
 			"defaultValue": "2022July02-15minute-test"
+		},
+		"get_weather_readings_15_minutes_properties_get_weather_readings_parameters_dc_test_session_id": {
+			"type": "string",
+			"defaultValue": "poc_post_function_fix"
 		}
 	},
 	"variables": {
@@ -132,7 +136,16 @@
 											"type": "DelimitedTextSink",
 											"storeSettings": {
 												"type": "AzureBlobStorageWriteSettings",
-												"copyBehavior": "FlattenHierarchy"
+												"copyBehavior": "FlattenHierarchy",
+												"metadata": [
+													{
+														"name": "dc_run_id",
+														"value": {
+															"value": "@pipeline().parameters.dc_test_session_id",
+															"type": "Expression"
+														}
+													}
+												]
 											},
 											"formatSettings": {
 												"type": "DelimitedTextWriteSettings",
@@ -199,7 +212,7 @@
 													}
 												}
 											],
-											"collectionReference": "[[\"readings\"]"
+											"collectionReference": "$['readings']"
 										}
 									},
 									"inputs": [
@@ -1373,6 +1386,40 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/runMwapiFunction')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/get_weather_readings_15_minutes')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [
+					"POC run starting Oct 20"
+				],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "get_weather_readings",
+							"type": "PipelineReference"
+						},
+						"parameters": {
+							"dc_test_session_id": "[parameters('get_weather_readings_15_minutes_properties_get_weather_readings_parameters_dc_test_session_id')]"
+						}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Minute",
+						"interval": 15,
+						"startTime": "2022-10-20T20:22:00Z",
+						"timeZone": "UTC"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/get_weather_readings')]"
 			]
 		},
 		{
