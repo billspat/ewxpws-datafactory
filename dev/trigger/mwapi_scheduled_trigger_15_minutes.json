@@ -5,7 +5,7 @@
 		"annotations": [
 			"test_session_oct2022"
 		],
-		"runtimeState": "Started",
+		"runtimeState": "Stopped",
 		"pipelines": [
 			{
 				"pipelineReference": {
