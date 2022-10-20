@@ -1,0 +1,29 @@
+{
+	"name": "get_weather_readings_15_minutes",
+	"properties": {
+		"annotations": [
+			"POC run starting Oct 20"
+		],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "get_weather_readings",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"dc_test_session_id": "poc_post_function_fix"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Minute",
+				"interval": 15,
+				"startTime": "2022-10-20T20:22:00Z",
+				"timeZone": "UTC"
+			}
+		}
+	}
+}
