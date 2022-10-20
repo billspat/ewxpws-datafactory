@@ -87,7 +87,16 @@
 									"type": "DelimitedTextSink",
 									"storeSettings": {
 										"type": "AzureBlobStorageWriteSettings",
-										"copyBehavior": "FlattenHierarchy"
+										"copyBehavior": "FlattenHierarchy",
+										"metadata": [
+											{
+												"name": "dc_run_id",
+												"value": {
+													"value": "@pipeline().parameters.dc_test_session_id",
+													"type": "Expression"
+												}
+											}
+										]
 									},
 									"formatSettings": {
 										"type": "DelimitedTextWriteSettings",
@@ -154,7 +163,7 @@
 											}
 										}
 									],
-									"collectionReference": "[\"readings\"]"
+									"collectionReference": "$['readings']"
 								}
 							},
 							"inputs": [
