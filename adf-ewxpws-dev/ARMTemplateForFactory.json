@@ -198,7 +198,8 @@
 														"type": "Double"
 													}
 												}
-											]
+											],
+											"collectionReference": "[[\"readings\"]"
 										}
 									},
 									"inputs": [
@@ -1347,7 +1348,7 @@
 				"annotations": [
 					"test_session_oct2022"
 				],
-				"runtimeState": "Started",
+				"runtimeState": "Stopped",
 				"pipelines": [
 					{
 						"pipelineReference": {
@@ -1373,6 +1374,13 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/runMwapiFunction')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/default')]",
+			"type": "Microsoft.DataFactory/factories/globalparameters",
+			"apiVersion": "2018-06-01",
+			"properties": {},
+			"dependsOn": []
 		}
 	]
 }
